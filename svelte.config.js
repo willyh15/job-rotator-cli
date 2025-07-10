@@ -4,7 +4,9 @@ import { vitePreprocess } from '@sveltejs/kit/vite';
 const config = {
   preprocess: vitePreprocess(),
   kit: {
-    adapter: undefined // we’ll specify Vercel or static adapter later
+    alias: {
+      $lib: 'src/lib',
+    }
   }
 };
 
