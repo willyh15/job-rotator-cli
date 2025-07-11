@@ -1,21 +1,12 @@
 #!/bin/bash
-# Copies job_results.log into the SvelteKit UI as JSON
+# Sync CLI job results with static HTML UI frontend
 
-CLI_RESULTS="./job_results.log"
-UI_RESULTS="./static/job_results.json"
+echo "[*] Syncing job_results.json to /ui directory..."
 
-if [[ ! -f "$CLI_RESULTS" ]]; then
-  echo "❌ $CLI_RESULTS not found. Run job_rotator.sh first."
-  exit 1
+cp ~/job-rotator-cli/job_results.json ~/job-rotator-cli/ui/job_results.json
+
+if [ $? -eq 0 ]; then
+  echo "[+] Sync complete: job_results.json is now available at /ui/job_results.json"
+else
+  echo "[!] Failed to sync job_results.json"
 fi
-
-echo "[*] Converting $CLI_RESULTS to JSON array..."
-jq -Rs '
-  split("\n---\n")[:-1] | 
-  map({
-    title: (split("\n")[0]),
-    url: (split("\n")[1])
-  })
-' "$CLI_RESULTS" > "$UI_RESULTS"
-
-echo "[+] Copied and converted to $UI_RESULTS"
