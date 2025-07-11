@@ -1,1 +1,37 @@
-l
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Results Viewer</title>
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: sans-serif;
+      padding: 2rem;
+    }
+    pre {
+      background: #222;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>📄 Synced Job Results</h1>
+  <pre id="output">Loading...</pre>
+
+  <script>
+    fetch("/job_results.json")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+      })
+      .catch(err => {
+        document.getElementById("output").textContent = "Failed to load job_results.json:\n" + err;
+      });
+  </script>
+</body>
+</html>
